@@ -1,0 +1,98 @@
+using EasyModbus;
+
+
+////////Creacion de una clase para leer MODBUS
+//////// Ojo las respuestas son int: signed interger 32bits
+
+namespace Control_silos_nitrogeno
+{
+    class ReadTCP
+    {
+        private string ip = "192.168.104.232"; // le doy la Ip y el puerto
+        private int port = 502;
+
+
+        public int [] Read_conectar (int [] parametros)
+        {
+
+            ushort startAddres = Convert.ToUInt16(parametros[0]);    /// conversiones a USHORT                                                     
+            ushort quantity = Convert.ToUInt16(parametros[1]);
+
+                ////    Abrimos conexinon
+                ModbusClient leer;
+                leer = new ModbusClient(ip, port); // se crea una variable que contiene ipaddress, port
+                ///     Leemos direcciones 
+                leer.Connect();
+                int [] response = leer.ReadInputRegisters(startAddres, quantity);
+                /// Se crea un array de strings con nombre response en la que escribiremos la respuesta
+                /// Hacemos peticion a Slave de un read imput registers
+                /// le damos la direccion de inicio y la cantidad de direcciones a leer
+                leer.Disconnect();    // Fin de conexion  
+
+                  return response;
+
+           
+        }
+
+    }
+}
+
+                            //// Clase para Escribir en un unico registro/////
+
+using EasyModbus;
+
+namespace Control_silos_nitrogeno
+{
+    class WriteTCP
+    {
+        private string ip = "192.168.104.232";
+        private int port = 502;
+
+
+        public void write_conectar(int startaddress, int Valor)
+        {
+
+            try
+            {
+
+                ushort startAddres = Convert.ToUInt16(startaddress);    /// conversiones a USHORT  
+
+                ////    Abrimos conexinon
+                ModbusClient modbus_TCP;
+                modbus_TCP = new ModbusClient(ip, port); // se crea una variable que contiene ipaddress, port
+
+                ///     Leemos direcciones 
+
+                modbus_TCP.Connect();
+                modbus_TCP.WriteSingleRegister(startAddres, Valor);
+                /// Se crea un array de strings con nombre response en la que escribiremos la respuesta
+                /// Hacemos peticion a Slave de un read imput registers
+                /// le damos la direccion de inicio y la cantidad de direcciones a leer
+                modbus_TCP.Disconnect();                        // Fin de conexion  
+            }
+            catch
+            {
+
+            }
+        }
+    }
+}
+
+
+////////// LLamar a la clase read:           
+
+
+            ReadTCP refrescar_valores = new ReadTCP(); /// crea una instancia de la clase
+
+            int[] Respuesta;                /// Le decimos que la respuesta vendra por un INT
+            int[] Parametros = new int[2];    /// los parametros se lo enviamos como 2 int
+
+            
+            Parametros[0] = 0; /// Primera direccion de lectura /// parametro 1 ([0] 
+            Parametros[1] = 12; /// Numero de direcciones      /// parametro 2 ([1] 
+
+            Respuesta = refrescar_valores.Read_conectar(Parametros);
+
+
+//////// Notas al pie
+Se puede variar La funcion del modbus.
