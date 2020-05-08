@@ -1,0 +1,21 @@
+
+                      /// crear nuevo formulario
+Form Formulario = New Form();
+Formulario.Show();
+
+                     //Minimizar
+this.WindowState= FormWindowState.Minimized;
+
+                     //Maximizar
+this.WindowState= FormWindowState.Maximized;
+
+                    //Restaurar
+this.WindowState= FormWindowState.Normal;
+
+
+                  //Cerrar formulario activo
+this.Close();
+
+
+                //Salir completamente de la aplicación
+Application.Exit();
