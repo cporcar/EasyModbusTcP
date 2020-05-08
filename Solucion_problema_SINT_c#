@@ -1,0 +1,38 @@
+///// PROGRAMA EN CODESYS V3 
+
+	Consumo_linde := Consumo_instant + Consumo_linde;  //// Consumo linde aqui me daria un valor alto, eje 50567,7
+	
+	
+		IF Consumo_linde > 1000 THEN                    /// Lo que hago es partirlo en 2 words
+		linde_word1:= linde_word1 +1;                   /// valor millares en Linde_word1
+		Consumo_linde:= Consumo_linde-1000;             // menos de mil en Consumo linde
+		END_IF
+    // esto hace que el valor mas grande de linde_word1 sea 1000
+    
+    
+	/// valores para array enviada por MODBUS TCP
+
+	values_to_application[4]:= REAL_TO_WORD (linde_word1);      // envio la palabra grande por el [4]
+	values_to_application[5]:= REAL_TO_WORD (Consumo_linde*10); /// la pequeña por el [5] 
+    //Los words no admiten decimales por eso multiplico por 10 para enviar un decimal junto con el paquete
+    // esto hace que el valor mas grande de linde_word1 sea 10000
+  
+  /// Lo mismo lo repetiria con otros valores que se envian por [10] y [11]
+  
+  
+  
+  
+  //// Visual Studio  c# WinFOrms
+  
+          int [] Respuesta // lectura del modbusTCP
+          
+              // convierto los INT a double para porder dividirlos con decimales
+
+            double Once =Convert.ToDouble( Respuesta[11]);
+            double Cinco = Convert.ToDouble(Respuesta[5]);
+            
+ string linde3 = Respuesta[4].ToString() + (Cinco / 10).ToString();  //// mostrar el 4 y 5 en un Label (linde seria un label)
+ string linde3 = Respuesta[10].ToString() + (Once / 10).ToString();  //// mostrar el 4 y 5 en un Label (linde seria un label)
+  
+  string ConsumototFabrica = (Convert.ToDouble(messer3) + Convert.ToDouble(linde3)).ToString(); /// Mostrar valores Sumados 
+  
