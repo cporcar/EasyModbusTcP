@@ -25,4 +25,8 @@ Application.Exit();
               
  DateTime horaA = DateTime.Now;
 string hora = horaA.ToString();
+https://rjcodeadvance.com/como-mostrar-la-hora-y-fecha-actual-con-c-tipos-de-formato/
+
+Si queremos cambiarle el formato segun se muestra. Util para las DB
+string hora = DateTime.Now.ToString("yy/MM/dd hh:mm:ss");
 
