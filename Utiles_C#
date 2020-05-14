@@ -19,3 +19,10 @@ this.Close();
 
                 //Salir completamente de la aplicación
 Application.Exit();
+
+
+              /// Fecha en una string
+              
+ DateTime horaA = DateTime.Now;
+string hora = horaA.ToString();
+
