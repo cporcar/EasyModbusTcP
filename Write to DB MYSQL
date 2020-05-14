@@ -1,0 +1,76 @@
+Necesitamos el conector to MYSQL 
+https://dev.mysql.com/downloads/connector/net/
+
+Usaremos el using en todos los comandos 
+
+using MySql.Data.MySqlClient;  //Its for MySQL
+
+
+    Un truco para conectar a la database es crear una etiqueta con la cadena de conexion
+    
+     InitializeComponent();
+     
+            string server = "127.0.0.1";            // Direccion del servidor.
+            string port = "3306";                   // port
+            string user = "root";                   // usuario, por defecto root
+            string password = "";                   // password, si no tiene en blanco
+            string nombredb = "efi_ener";          // Nombre de la base de datos
+
+            conect_query.Text= "Database=" + nombredb + ";Data Source=" + server + " ;User Id = " + user + " ;Password=" + password;
+            Creo esta label que contiene la cadena de conexion 
+            
+            
+        ######    INSERTAR O Usar un comando para ejecutar algo en la tabla
+        
+        //// Esta es la cadena que conecta a la BD
+            string MyConnection2 = conect_query.Text;
+
+
+            //This is my insert query in which i am taking input from the user through windows forms  
+            string Query = "Insert into efi_ener.maindb VALUES ('" + hora + "',' " + campo1 + "','" + campo2 + "','" + campo3 + "','" + campo4 + "','" + campo5 + "','" + campo6 + "','" + campo7 + "','" + campo8 + "','" + campo9 + "','" + campo10 + "','" + campo11 + "',' " + campo12 + "','" + campo13 + "','" + campo14 + "','" + campo15 + "','" + campo16 + "','" + campo17 + "','" + campo18 + "','" + campo19 + "','" + campo20 + "',' " + campo21 + "','" + campo22 + "','" + campo23 + "','" + campo24 + "');"; 
+            
+            
+
+            
+            //This is  MySqlConnection here i have created the object and pass my connection string.  
+            MySqlConnection MyConn2 = new MySqlConnection(MyConnection2);
+            
+            //This is command class which will handle the query and connection object.  
+            MySqlCommand MyCommand2 = new MySqlCommand(Query, MyConn2);
+            MySqlDataReader MyReader2;
+            MyConn2.Open();
+            MyReader2 = MyCommand2.ExecuteReader();     // Here our query will be executed and data saved into the database.  
+            MessageBox.Show("Save Data");
+            
+            #### Truco para insertar facil
+            
+                        /// Como a veces da por culo el insertar en los campos correctos el mejor sistema es: 
+            // Creo una cadena con el PK + 1,2, .... y los inserto
+            // recordar que si insertamos un varchar tiene que ir entre comillas simples
+           
+           ///       query test:       string Query = "Insert into efi_ener.maindb VALUES ('" + hora + "','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25');"; 
+            
+           /// Una vez la cadena funciona sustituyo los numeros 1,2,3 ...
+           /// por      "+ DATO_PARA_EL_CAMPO +"
+           
+           
+            
+            #### LISTAR EN DATAGRID VIEW todo o los componentes que queramos segun le escribamos al query
+            
+            Creamos un datagriedview1
+            
+            string MyConnection2 = conect_query.Text;
+            
+            //Display query  
+            string Query = "select * from efi_ener.maindb;";
+            MySqlConnection MyConn2 = new MySqlConnection(MyConnection2);
+            MySqlCommand MyCommand2 = new MySqlCommand(Query, MyConn2);
+             MyConn2.Open();  
+             
+            //For offline connection we weill use  MySqlDataAdapter class.  
+            MySqlDataAdapter MyAdapter = new MySqlDataAdapter();
+            MyAdapter.SelectCommand = MyCommand2;
+            DataTable dTable = new DataTable();
+            MyAdapter.Fill(dTable);
+            dataGridView1.DataSource = dTable; // here i have assign dTable object to the dataGridView1 object to display data.               
+            MyConn2.Close(); 
