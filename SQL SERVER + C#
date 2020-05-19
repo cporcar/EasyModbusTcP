@@ -50,18 +50,4 @@ https://www.tutorialesprogramacionya.com/csharpya/detalleconcepto.php?codigo=149
              
 
 
-#### Meter en datagrid view
 
-              https://es.stackoverflow.com/questions/61748/cómo-buscar-en-un-datagridview-un-rango-de-fechas-vb-net
-
-              Dim fechaIni As String = dtpFechaIni.Value.ToString("yyyy-MM-dd")  /// Seria el selector de fecha inicio
-
-              Dim fechaFin As String = dtpFechaFin.Value.ToString("yyyy-MM-dd") /// Seria el selector de fecha Final
-
-              Dim sql As String = "select * from ---Nombre_table ---  where ---nombre_campo_fecha --- between'" + fechaIni + "' and '" + fechaFin + "' "
-
-              Dim adaptador2 As New SqlDataAdapter(sql, conexion)
-              Dim tblFiltro As New DataTable()
-
-              adaptador2.Fill(tblFiltro)
-              --Nombre del datagrid view--.DataSource = tblFiltro
