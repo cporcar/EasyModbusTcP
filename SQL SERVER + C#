@@ -49,5 +49,31 @@ https://www.tutorialesprogramacionya.com/csharpya/detalleconcepto.php?codigo=149
               conexion.Close();
              
 
+#### Hacer select from table filtrando con 2 tiempos
 
+            /// creo 2 datatimepicker para la fecha alta y baja
+            string fecha_alta = dtp_high.Value.ToString("yy/MM/dd"); // paso a string los valores que me da
+            string fecha_baja = dtp_low.Value.ToString("yy/MM/dd");
+
+
+
+            string connectionString = "server=192.168.104.202; database=Eficiencia_energetica_DB ; integrated security = true";
+
+            /// la cadena de conexion es util probarla antes en el sql manager
+            string sql = "select * from mainDB where hora_fecha > '"+ fecha_baja + "' and hora_fecha< '"+fecha_alta+"'";
+           
+            SqlConnection connection = new SqlConnection(connectionString);
+            SqlDataAdapter dataadapter = new SqlDataAdapter(sql, connection);
+            DataSet ds = new DataSet();
+            connection.Open();
+            dataadapter.Fill(ds,"H1_kwe");
+            connection.Close();
+            dataGridView2.DataSource = ds;
+            dataGridView2.DataMember = "H1_kwe";
+
+            /// estos label los uso como testigos para asegurarme que envio lo correcto, se pueden eliminar
+
+            label30.Text = fecha_baja;
+            label31.Text = fecha_alta;
+            label32.Text = sql;
 
