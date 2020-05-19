@@ -1,0 +1,67 @@
+Guia general c#
+https://www.tutorialesprogramacionya.com/csharpya/detalleconcepto.php?codigo=149&inicio=20
+
+
+## Configurar conexion a para SQL server que permita conectarse desde otro PC en red LOCAL
+
+    Aqui se explica
+    https://docs.microsoft.com/es-es/sql/relational-databases/lesson-2-connecting-from-another-computer?view=sql-server-ver15
+
+            Yo he entrado usando este comando de ejecutar
+            C:\Windows\SysWOW64\SQLServerManager15.msc
+
+            SQL server configuration manager
+              configuracion de red de mysqlserver
+                protocolos mysqlserver
+                  TCP/IP
+                    Habilitamos tcp/ip
+                      Configurar una IP y un puerto en la siguiente pestaña
+
+
+
+### codigo para probar conexion.  Me conecto a un servidor que  esta en red local.
+
+          	try
+            {            
+            SqlConnection conexion = new SqlConnection("server=192.168.104.202; database=Eficiencia_energetica_DB ; integrated security = true");
+            conexion.Open();
+            MessageBox.Show("Se abrió la conexión con el servidor SQL Server y se seleccionó la base de datos");
+            conexion.Close();
+            MessageBox.Show("Se cerró la conexión.");
+            }
+            catch
+            {
+                MessageBox.Show("Imposible conectar");
+            }
+
+## Codigo para Hacer INSERTS o otros COMANDOS			/// EN server pondriamos la direccion IP o el Nombre 
+
+              SqlConnection conexion = new SqlConnection("server=PORCAR ; database=Eficiencia_energetica_DB ; integrated security = true");
+              
+              /// String de comandos  /// La sintaxis es insert into --Nombre Database-- (--campos a añadir --) values (--valores--) 
+              // los varchar entre comillas simples 
+              string cadena = "insert into MainDB (hora_fecha, H1_kwe,  H1_kwhe,  H1_gas,  H1_gase,  H1_n2,  H1_n2e, H4_kw, H4_kwe, H4_n2,H4_n2e,Hv_kw, hv_kwe, Hv_n2, Hv_n2e, Ac_kw, Ac_kwe, Ir_kw, Ir_kwe, T1_kw, T1_kwe, Pr_kw, Pr_kwe, LR_kw, LR_kwe,N2_total,N2_linde,N2_messer,N2_total_E,N2_linde_E,N2_messer_E  ) values ('" + hora + "',' " + campo1 + "','" + campo2 + "','" + campo3 + "','" + campo4 + "','" + campo5 + "','" + campo6 + "','" + campo7 + "','" + campo8 + "','" + campo9 + "','" + campo10 + "','" + campo11 + "',' " + campo12 + "','" + campo13 + "','" + campo14 + "','" + campo15 + "','" + campo16 + "','" + campo17 + "','" + campo18 + "','" + campo19 + "','" + campo20 + "',' " + campo21 + "','" + campo22 + "','" + campo23 + "','" + campo24 + "','" + campo25 + "','" + campo26 + "','" + campo27 + "','" + campo28 + "','" + campo29 + "','" + campo30 + "');";
+
+              conexion.Open();
+              SqlCommand comando = new SqlCommand(cadena, conexion);
+              comando.ExecuteNonQuery();
+
+              conexion.Close();
+             
+
+
+#### Meter en datagrid view
+
+              https://es.stackoverflow.com/questions/61748/cómo-buscar-en-un-datagridview-un-rango-de-fechas-vb-net
+
+              Dim fechaIni As String = dtpFechaIni.Value.ToString("yyyy-MM-dd")  /// Seria el selector de fecha inicio
+
+              Dim fechaFin As String = dtpFechaFin.Value.ToString("yyyy-MM-dd") /// Seria el selector de fecha Final
+
+              Dim sql As String = "select * from ---Nombre_table ---  where ---nombre_campo_fecha --- between'" + fechaIni + "' and '" + fechaFin + "' "
+
+              Dim adaptador2 As New SqlDataAdapter(sql, conexion)
+              Dim tblFiltro As New DataTable()
+
+              adaptador2.Fill(tblFiltro)
+              --Nombre del datagrid view--.DataSource = tblFiltro
